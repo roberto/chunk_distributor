@@ -27,6 +27,8 @@ defmodule ElixirDistributor do
     do_extract_bitrate_playlists pid, [record|playlists]
   end
 
+  def extract_chunks bitrate_playlist do
+    []
   end
 
 end

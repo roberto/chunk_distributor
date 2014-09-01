@@ -2,7 +2,29 @@ defmodule ElixirDistributor do
   require Record
   Record.defrecord :bitrate_playlist, bandwidth: nil, path: nil
 
-  def extract_bitrate_playlists path do
-    [bitrate_playlist(bandwidth: 123, path: '123')]
+  def extract_bitrate_playlists base_path do
+    playlist_path = Path.join base_path, "playlist.m3u8"
+
+    File.open! playlist_path, fn(pid) ->
+      # Discards #EXTM3U
+      IO.read(pid, :line)
+      do_extract_m3u8(pid, [])
+    end
   end
+
+  def do_extract_m3u8(pid, acc) do
+    case IO.read(pid, :line) do
+      :eof -> acc
+      stream_inf ->
+        path = IO.read(pid, :line)
+        do_extract_m3u8(pid, stream_inf, path, acc)
+    end
+  end
+
+  def do_extract_m3u8(pid, stream_inf, path, acc)  do
+    << "#EXT-X-STREAM-INF:PROGRAM-ID=", _program_id, ",BANDWIDTH=", bandwidth :: binary >> = stream_inf
+    record = bitrate_playlist(path: String.strip(path), bandwidth: String.strip(bandwidth))
+    do_extract_m3u8(pid, [record|acc])
+  end
+
 end

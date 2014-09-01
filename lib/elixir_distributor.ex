@@ -8,23 +8,23 @@ defmodule ElixirDistributor do
     File.open! playlist_path, fn(pid) ->
       # Discards #EXTM3U
       IO.read(pid, :line)
-      do_extract_m3u8(pid, [])
+      do_extract_bitrate_playlists(pid, [])
     end
   end
 
-  def do_extract_m3u8(pid, acc) do
+  defp do_extract_bitrate_playlists(pid, acc) do
     case IO.read(pid, :line) do
       :eof -> acc
       stream_inf ->
         path = IO.read(pid, :line)
-        do_extract_m3u8(pid, stream_inf, path, acc)
+        do_extract_bitrate_playlists(pid, stream_inf, path, acc)
     end
   end
 
-  def do_extract_m3u8(pid, stream_inf, path, acc)  do
+  defp do_extract_bitrate_playlists(pid, stream_inf, path, acc)  do
     << "#EXT-X-STREAM-INF:PROGRAM-ID=", _program_id, ",BANDWIDTH=", bandwidth :: binary >> = stream_inf
     record = bitrate_playlist(path: String.strip(path), bandwidth: String.strip(bandwidth))
-    do_extract_m3u8(pid, [record|acc])
+    do_extract_bitrate_playlists(pid, [record|acc])
   end
 
 end

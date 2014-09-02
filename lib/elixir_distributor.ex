@@ -19,6 +19,7 @@ defmodule ElixirDistributor do
 
   defp do_extract_streams pid, playlists do
     case IO.read(pid, :line) do
+      "\n" -> do_extract_streams pid, playlists
       :eof -> playlists
       stream_inf ->
         path = IO.read(pid, :line)
@@ -41,6 +42,7 @@ defmodule ElixirDistributor do
 
   defp do_extract_chunks({:stream, path, _, _} = stream) do
     File.open! path, fn(pid) ->
+      #TODO improve it
       IO.read(pid, :line)
       IO.read(pid, :line)
       IO.read(pid, :line)
@@ -52,7 +54,8 @@ defmodule ElixirDistributor do
   end
 
   defp do_extract_chunks(pid, chunks) do
-    case IO.read(pid, :line) do
+    case line = IO.read(pid, :line) do
+      "\n" -> do_extract_chunks(pid, chunks)
       :eof -> Enum.reverse chunks
       _extinf ->
         path = String.strip(IO.read(pid, :line))

@@ -54,7 +54,7 @@ defmodule ElixirDistributor do
   end
 
   defp do_extract_chunks(pid, chunks) do
-    case line = IO.read(pid, :line) do
+    case IO.read(pid, :line) do
       "\n" -> do_extract_chunks(pid, chunks)
       :eof -> Enum.reverse chunks
       _extinf ->

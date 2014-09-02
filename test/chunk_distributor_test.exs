@@ -1,13 +1,14 @@
-defmodule ElixirDistributorTest do
+defmodule ChunkDistributor.PlaylistTest do
   use ExUnit.Case
-  require ElixirDistributor
+  require ChunkDistributor.Playlist
+  alias ChunkDistributor.Playlist, as: Playlist
 
-  @stream_264 ElixirDistributor.stream(bandwidth: "270336", path: "test/fixtures/signal_example/stream_264/playlist.m3u8", chunks: [])
-  @stream_464 ElixirDistributor.stream(bandwidth: "475136", path: "test/fixtures/signal_example/stream_464/playlist.m3u8", chunks: [])
+  @stream_264 Playlist.stream(bandwidth: "270336", path: "test/fixtures/signal_example/stream_264/playlist.m3u8", chunks: [])
+  @stream_464 Playlist.stream(bandwidth: "475136", path: "test/fixtures/signal_example/stream_464/playlist.m3u8", chunks: [])
 
 
   test "extracts streams from master playlist" do
-    assert ElixirDistributor.extract_streams("test/fixtures/signal_example/") ==
+    assert Playlist.extract_streams("test/fixtures/signal_example/") ==
       [@stream_264, @stream_464]
   end
 
@@ -24,15 +25,15 @@ defmodule ElixirDistributorTest do
 
   test "extracts chunk files from bitrate playlist" do
     stream = [@stream_264] 
-              |> ElixirDistributor.extract_chunks
+              |> Playlist.extract_chunks
               |> List.first
 
-    assert ElixirDistributor.stream(stream, :chunks) == @expected_chunks
-    assert ElixirDistributor.stream(stream, :bandwidth) == "270336"
+    assert Playlist.stream(stream, :chunks) == @expected_chunks
+    assert Playlist.stream(stream, :bandwidth) == "270336"
   end
 
   test "connects to cassandra" do
-    {result, _} = ElixirDistributor.cassandra_client
+    {result, _} = Playlist.cassandra_client
     assert result == :ok
   end
 

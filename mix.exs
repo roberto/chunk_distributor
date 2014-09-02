@@ -1,8 +1,8 @@
-defmodule ElixirDistributor.Mixfile do
+defmodule ChunkDistributor.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :elixir_distributor,
+    [app: :chunk_distributor,
      version: "0.0.1",
      elixir: "~> 1.0.0-rc1",
      deps: deps]

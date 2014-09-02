@@ -1,4 +1,4 @@
-defmodule ElixirDistributor do
+defmodule ChunkDistributor.Playlist do
   require Record
   Record.defrecord :stream, path: nil, bandwidth: nil, chunks: []
 
@@ -65,7 +65,7 @@ defmodule ElixirDistributor do
 
   def cassandra_client do
     :application.ensure_all_started(:cqerl)
-    {:ok, client} = :cqerl.new_client({'127.0.0.1', 9042})
+    {:ok, _client} = :cqerl.new_client({'127.0.0.1', 9042})
   end
 
 end

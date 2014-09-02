@@ -32,9 +32,4 @@ defmodule ChunkDistributor.PlaylistTest do
     assert Playlist.stream(stream, :bandwidth) == "270336"
   end
 
-  test "connects to cassandra" do
-    {result, _} = Playlist.cassandra_client
-    assert result == :ok
-  end
-
 end

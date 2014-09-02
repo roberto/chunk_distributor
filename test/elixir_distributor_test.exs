@@ -9,7 +9,7 @@ defmodule ElixirDistributorTest do
   end
 
   test "extract chunk files from bitrate playlist" do
-    bitrate_playlists = [ElixirDistributor.stream(bandwidth: "270336", path: "stream_264/playlist.m3u8", chunks: [])] 
+    bitrate_playlists = [ElixirDistributor.stream(bandwidth: "270336", path: "test/fixtures/signal_example/stream_264/playlist.m3u8", chunks: [])] 
                         |> ElixirDistributor.extract_chunks
                         |> List.first
 

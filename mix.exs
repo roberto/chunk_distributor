@@ -4,7 +4,7 @@ defmodule ElixirDistributor.Mixfile do
   def project do
     [app: :elixir_distributor,
      version: "0.0.1",
-     elixir: "~> 0.15.1",
+     elixir: "~> 1.0.0-rc1",
      deps: deps]
   end
 

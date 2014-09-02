@@ -40,7 +40,7 @@ defmodule ElixirDistributor do
     Enum.map playlists, &do_extract_chunks(&1)
   end
 
-  defp do_extract_chunks({:stream, path, _, _} = stream) do
+  defp do_extract_chunks(stream(path: path) = stream) do
     File.open! path, fn(pid) ->
       #TODO improve it
       IO.read(pid, :line)

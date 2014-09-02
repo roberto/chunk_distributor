@@ -1,6 +1,6 @@
 defmodule ElixirDistributor do
   require Record
-  Record.defrecord :stream, bandwidth: nil, path: nil, chunks: []
+  Record.defrecord :stream, path: nil, bandwidth: nil, chunks: []
 
   @doc """
   Extract stream playlists
@@ -39,15 +39,15 @@ defmodule ElixirDistributor do
     Enum.map playlists, &do_extract_chunks(&1)
   end
 
-  defp do_extract_chunks(playlist) do
-    File.open! stream(playlist, :path), fn(pid) ->
+  defp do_extract_chunks({:stream, path, _, _} = stream) do
+    File.open! path, fn(pid) ->
       IO.read(pid, :line)
       IO.read(pid, :line)
       IO.read(pid, :line)
       IO.read(pid, :line)
 
       chunks = do_extract_chunks(pid, [])
-      stream(playlist, chunks: chunks)
+      stream(stream, chunks: chunks)
     end
   end
 

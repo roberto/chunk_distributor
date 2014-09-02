@@ -32,8 +32,15 @@ defmodule ElixirDistributor do
     do_extract_streams pid, [record|playlists]
   end
 
-  def extract_chunks bitrate_playlist do
-    []
+  @doc """
+  Extract chunks from stream playlists
+  """
+  def extract_chunks playlists do
+    Enum.map playlists, &do_extract_chunks(&1)
+  end
+
+  defp do_extract_chunks(playlist) do
+    playlist
   end
 
 end

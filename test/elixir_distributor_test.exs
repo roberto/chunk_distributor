@@ -31,4 +31,9 @@ defmodule ElixirDistributorTest do
     assert ElixirDistributor.stream(stream, :bandwidth) == "270336"
   end
 
+  test "connects to cassandra" do
+    {result, _} = ElixirDistributor.cassandra_client
+    assert result == :ok
+  end
+
 end

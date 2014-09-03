@@ -24,14 +24,13 @@ defmodule ChunkDistributor.Playlist do
     case IO.read(pid, :line) do
       "\n" -> do_extract_streams pid, playlists
       :eof -> playlists
-      stream_inf ->
-        path = IO.read(pid, :line)
-        do_extract_streams pid, stream_inf, path, playlists
+      stream_inf -> do_extract_streams pid, stream_inf, playlists
     end
   end
 
-  defp do_extract_streams pid, stream_inf, path, playlists  do
+  defp do_extract_streams pid, stream_inf, playlists  do
     << "#EXT-X-STREAM-INF:PROGRAM-ID=", _program_id, ",BANDWIDTH=", bandwidth :: binary >> = stream_inf
+    path = IO.read(pid, :line)
     record = stream(path: String.strip(path), bandwidth: String.strip(bandwidth))
     do_extract_streams pid, [record|playlists]
   end

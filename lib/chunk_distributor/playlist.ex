@@ -1,10 +1,13 @@
 defmodule ChunkDistributor.Playlist do
   require Record
   Record.defrecord :stream, path: nil, bandwidth: nil, chunks: []
+  @type stream :: record(:stream, path: binary, bandwidth: binary, chunks: list)
 
   @doc """
   Extract stream playlists
   """
+  @spec extract_streams(binary) :: stream
+
   def extract_streams basepath do
     playlist_path = Path.join basepath, "playlist.m3u8"
 
@@ -36,6 +39,7 @@ defmodule ChunkDistributor.Playlist do
   @doc """
   Extract chunks from stream playlists
   """
+  @spec extract_chunks([stream]) :: [stream]
   def extract_chunks playlists do
     Enum.map playlists, &do_extract_chunks(&1)
   end

@@ -1,4 +1,6 @@
 %{"cqerl": {:git, "git://github.com/matehat/cqerl.git", "28c8530192e6c7190c8c473caddcdf8f98ca463a", []},
+  "earmark": {:package, "0.1.10"},
+  "ex_doc": {:package, "0.6.0"},
   "lz4": {:git, "https://github.com/szktty/erlang-lz4.git", "30878eafeff35939052c2cafe17d21c95029d3a1", []},
   "pooler": {:git, "https://github.com/seth/pooler.git", "23271fe27a13a9e288f07a5cb751456961365739", []},
   "quickrand": {:git, "https://github.com/okeuday/quickrand.git", "0395a10b94472ccbe38b62bbfa9d0fc1ddac1dd7", [tag: "v1.3.2"]},

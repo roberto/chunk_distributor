@@ -26,7 +26,9 @@ defmodule ChunkDistributor.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:cqerl, github: 'matehat/cqerl'}
+      {:cqerl, github: 'matehat/cqerl'},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.5", only: :dev}
     ]
   end
 end
